@@ -1,0 +1,13 @@
+# CareerAgent backend. Install: pip install -r requirements.txt
+fastapi>=0.115            # the web framework
+uvicorn[standard]>=0.30   # the server that runs FastAPI (also on HF Spaces)
+pydantic-settings>=2.4    # typed settings loaded from env vars / .env
+openai>=1.40,<2.0         # API client — pointed at Mistral/Groq OpenAI-compatible APIs
+pypdf>=4.2                # reads text out of PDF files
+psycopg[binary]>=3.2      # PostgreSQL driver (Supabase)         [used from D2]
+pgvector>=0.3             # vector type support for psycopg      [used from D2]
+slowapi>=0.1.9            # per-IP rate limiting                 [used from D6]
+pyjwt>=2.9                # verify Supabase owner login tokens   [used from D6]
+tavily-python>=0.5        # web search API for the research agent [used from D4]
+ddgs>=9.0                 # zero-key DuckDuckGo search fallback  [used from D4]
+httpx>=0.27               # async HTTP client
