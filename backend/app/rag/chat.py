@@ -58,6 +58,23 @@ def build_context(chunks):
     return "\n\n".join(lines)
 
 
+def answer_text(question: str, workspace: str):
+    """Non-streaming answer for the eval suite: returns (text, chunks)."""
+    client = _client()
+    chunks = retrieve(client, question, workspace, settings.top_k)
+    if not chunks:
+        return "No documents found.", []
+    resp = client.chat.completions.create(
+        model=settings.chat_model,
+        temperature=0,
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": f"Context:\n{build_context(chunks)}\n\nQuestion: {question}"},
+        ],
+    )
+    return resp.choices[0].message.content, chunks
+
+
 def answer_stream(question: str, workspace: str):
     """Yield SSE frames: token* -> sources -> usage. Consumed by StreamingResponse."""
     t0 = time.monotonic()

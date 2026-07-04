@@ -1,0 +1,26 @@
+[
+  {
+    "question": "What did the candidate build at RoboLogistics?",
+    "expected": "A RAG pipeline over 12,000 maintenance manuals using pgvector and Mistral embeddings, reducing technician search time by 40%, plus FastAPI microservices on Kubernetes with LLM-as-judge evaluation."
+  },
+  {
+    "question": "What was the topic of the master's thesis?",
+    "expected": "Evaluating hallucination rates in retrieval-augmented question answering."
+  },
+  {
+    "question": "Which universities did the candidate attend?",
+    "expected": "TU Berlin (M.Sc. Data Science) and RWTH Aachen (B.Sc. Computer Science)."
+  },
+  {
+    "question": "What faithfulness score did the evaluation suites reach?",
+    "expected": "92% faithfulness."
+  },
+  {
+    "question": "What languages does the candidate speak and at what level?",
+    "expected": "German at C2 level and English at C1 level."
+  },
+  {
+    "question": "Does the candidate have experience with AWS SageMaker?",
+    "expected": "The documents do not mention SageMaker — the system should say it couldn't find that in the documents rather than guessing."
+  }
+]

@@ -1,8 +1,9 @@
 """Document endpoints: upload (validates + ingests), list, delete."""
-from fastapi import APIRouter, Depends, Form, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, Form, HTTPException, Request, UploadFile
 
 from app.db import get_conn
 from app.deps import get_workspace
+from app.limits import UPLOAD_LIMIT, limiter
 from app.rag.ingest import ingest_pdf, read_pdf
 
 router = APIRouter(prefix="/api/documents", tags=["documents"])
@@ -27,7 +28,8 @@ def list_documents(workspace: str = Depends(get_workspace)):
 
 
 @router.post("", status_code=201)
-async def upload_document(file: UploadFile, kind: str = Form(...),
+@limiter.limit(UPLOAD_LIMIT)
+async def upload_document(request: Request, file: UploadFile, kind: str = Form(...),
                           workspace: str = Depends(get_workspace)):
     if kind not in ("cv", "jd"):
         raise HTTPException(422, "kind must be 'cv' or 'jd'")

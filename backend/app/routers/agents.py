@@ -3,13 +3,14 @@ application card — the Kanban drawer renders these on Day 10-11.
 """
 import json
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
 
 from app.agents.research import run_research
 from app.agents.tailor import run_tailor
 from app.db import get_conn
 from app.deps import get_workspace
+from app.limits import AGENT_LIMIT, limiter
 
 router = APIRouter(prefix="/api/agents", tags=["agents"])
 
@@ -45,14 +46,16 @@ def _save_artifact(application_id: str, kind: str, content: dict, record: dict) 
 
 
 @router.post("/research")
-def research(req: AgentRequest, workspace: str = Depends(get_workspace)):
+@limiter.limit(AGENT_LIMIT)
+def research(request: Request, req: AgentRequest, workspace: str = Depends(get_workspace)):
     app_row = _load_application(req.application_id, workspace)
     brief, record = run_research(app_row["company"], app_row["role"], workspace)
     return _save_artifact(req.application_id, "research", brief.model_dump(), record)
 
 
 @router.post("/tailor")
-def tailor(req: AgentRequest, workspace: str = Depends(get_workspace)):
+@limiter.limit(AGENT_LIMIT)
+def tailor(request: Request, req: AgentRequest, workspace: str = Depends(get_workspace)):
     _load_application(req.application_id, workspace)  # 404 if missing
 
     jd_text = req.jd_text
