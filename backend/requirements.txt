@@ -4,6 +4,7 @@ uvicorn[standard]>=0.30   # the server that runs FastAPI (also on HF Spaces)
 pydantic-settings>=2.4    # typed settings loaded from env vars / .env
 openai>=1.40,<2.0         # API client — pointed at Mistral/Groq OpenAI-compatible APIs
 pypdf>=4.2                # reads text out of PDF files
+python-multipart>=0.0.9   # parses file uploads (FastAPI needs it for UploadFile)
 psycopg[binary]>=3.2      # PostgreSQL driver (Supabase)         [used from D2]
 pgvector>=0.3             # vector type support for psycopg      [used from D2]
 slowapi>=0.1.9            # per-IP rate limiting                 [used from D6]
