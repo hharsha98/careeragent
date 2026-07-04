@@ -28,8 +28,10 @@ def _client() -> OpenAI:
     return OpenAI(api_key=settings.mistral_api_key, base_url=settings.mistral_base_url)
 
 
-def retrieve(client: OpenAI, question: str, workspace: str, top_k: int):
-    """Embed the question, then fetch the top_k most similar chunks via SQL."""
+def retrieve(client: OpenAI, question: str, workspace: str, top_k: int,
+             kind: str | None = None):
+    """Embed the question, then fetch the top_k most similar chunks via SQL.
+    kind='cv' or 'jd' narrows the search to one document type (tailor agent)."""
     q_embedding = client.embeddings.create(
         model=settings.embed_model, input=[question]
     ).data[0].embedding
@@ -40,9 +42,10 @@ def retrieve(client: OpenAI, question: str, workspace: str, top_k: int):
                from chunks c
                join documents d on c.document_id = d.id
                where d.workspace = %s
+                 and (%s::text is null or d.kind = %s)
                order by c.embedding <=> %s::vector
                limit %s""",
-            (workspace, q_embedding, top_k),
+            (workspace, kind, kind, q_embedding, top_k),
         )
         return [{"text": r[0], "source": r[1], "page": r[2]} for r in cur.fetchall()]
 
