@@ -1,10 +1,37 @@
 @import "tailwindcss";
+@import "@fontsource-variable/inter";
 
-/* CareerAgent design tokens — dark by default. Full design pass on D8. */
-:root {
-  color-scheme: dark;
+/* CareerAgent design tokens — industrial terminal-precision.
+   One accent (emerald), near-black zinc field, mono for every number. */
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, monospace;
+
+  --color-ink: #09090b;        /* page field */
+  --color-panel: #101012;      /* raised surfaces */
+  --color-edge: #26262b;       /* borders */
+  --color-accent: #34d399;     /* emerald 400 — the only loud color */
+  --color-accent-dim: #10b98122;
+  --color-cost: #fbbf24;       /* amber — money/tokens only */
 }
+
+:root { color-scheme: dark; }
 
 body {
-  @apply bg-zinc-950 text-zinc-200 antialiased;
+  @apply bg-ink text-zinc-300 antialiased;
 }
+
+/* the one background atmosphere: a faint emerald breath, top-left */
+.atmosphere {
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 0%, rgb(52 211 153 / 0.07), transparent 70%),
+    radial-gradient(ellipse 40% 30% at 80% 100%, rgb(52 211 153 / 0.04), transparent 70%);
+}
+
+/* streaming caret in chat */
+.caret::after {
+  content: "▍";
+  @apply text-accent animate-pulse;
+}
+
+::selection { background: rgb(52 211 153 / 0.25); }
