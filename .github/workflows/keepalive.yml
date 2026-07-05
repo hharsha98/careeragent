@@ -14,5 +14,5 @@ jobs:
     steps:
       - name: Ping health + touch the database
         run: |
-          curl -sf https://hharsha98-careeragent-api.hf.space/api/health
-          curl -sf https://hharsha98-careeragent-api.hf.space/api/applications > /dev/null
+          curl -sf https://hv1998-careeragent-api.hf.space/api/health
+          curl -sf https://hv1998-careeragent-api.hf.space/api/applications > /dev/null

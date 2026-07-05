@@ -18,7 +18,7 @@ jobs:
       - name: Push backend/ to the Space
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-          HF_USER: hharsha98
+          HF_USER: hv1998
           SPACE: careeragent-api
         run: |
           pip -q install "huggingface_hub[cli]"
