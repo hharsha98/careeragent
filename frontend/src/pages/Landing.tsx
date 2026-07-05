@@ -5,10 +5,13 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { api, type EvalRun } from '../lib/api'
 
-const rise = {
-  hidden: { opacity: 0, y: 18 },
-  show: (i: number) => ({ opacity: 1, y: 0, transition: { delay: 0.12 * i, duration: 0.5 } }),
-}
+/** Staged-reveal helper: plain initial/animate objects (the variants+custom
+ *  pattern silently fails to start in some browsers with React 19). */
+const rise = (i: number) => ({
+  initial: { opacity: 0, y: 18 },
+  animate: { opacity: 1, y: 0 },
+  transition: { delay: 0.12 * i, duration: 0.5 },
+})
 
 export default function Landing() {
   const [evals, setEvals] = useState<EvalRun | null>(null)
@@ -23,24 +26,24 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen atmosphere">
-      <div className="mx-auto max-w-5xl px-6 pt-24 pb-20">
+      <div className="mx-auto max-w-5xl px-5 pt-16 pb-16 sm:px-6 sm:pt-24 sm:pb-20">
         {/* hero */}
-        <motion.p custom={0} initial="hidden" animate="show" variants={rise}
+        <motion.p {...rise(0)}
           className="font-mono text-xs tracking-[0.25em] text-accent uppercase">
           careeragent — a working ai system, not a mockup
         </motion.p>
-        <motion.h1 custom={1} initial="hidden" animate="show" variants={rise}
-          className="mt-5 max-w-3xl text-5xl font-semibold leading-[1.05] tracking-tight text-zinc-50 sm:text-6xl">
+        <motion.h1 {...rise(1)}
+          className="mt-5 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight text-zinc-50 sm:text-6xl">
           Agents for the job hunt.
         </motion.h1>
-        <motion.p custom={2} initial="hidden" animate="show" variants={rise}
+        <motion.p {...rise(2)}
           className="mt-6 max-w-xl text-lg leading-relaxed text-zinc-400">
           Chat with a CV — with citations. Research companies live on the web.
           Tailor bullets to any job description, anchored to real evidence.
           Every request metered, every answer evaluated.
         </motion.p>
 
-        <motion.div custom={3} initial="hidden" animate="show" variants={rise}
+        <motion.div {...rise(3)}
           className="mt-10 flex flex-wrap items-center gap-4">
           <Link to="/chat"
             className="rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-zinc-950 transition hover:brightness-110">
@@ -60,7 +63,7 @@ export default function Landing() {
         </motion.div>
 
         {/* architecture — drawn, not stocked */}
-        <motion.div custom={4} initial="hidden" animate="show" variants={rise} className="mt-24">
+        <motion.div {...rise(4)} className="mt-24">
           <h2 className="font-mono text-xs uppercase tracking-[0.25em] text-zinc-500">architecture</h2>
           <div className="mt-4 overflow-x-auto rounded-lg border border-edge bg-panel p-6">
             <svg viewBox="0 0 720 190" className="min-w-[640px] w-full font-mono text-[11px]">

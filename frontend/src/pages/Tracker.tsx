@@ -89,17 +89,17 @@ export default function Tracker() {
   }
 
   return (
-    <div className="flex h-screen flex-col px-8 py-8">
+    <div className="flex h-full flex-col px-4 py-6 md:px-8 md:py-8">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="font-mono text-xs uppercase tracking-[0.25em] text-zinc-500">application tracker</p>
           <h2 className="mt-1 text-2xl font-semibold text-zinc-100">Every application, one board.</h2>
         </div>
-        <form onSubmit={add} className="flex gap-2">
+        <form onSubmit={add} className="flex w-full flex-wrap gap-2 md:w-auto">
           <input value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company"
-            className="w-36 rounded-md border border-edge bg-panel px-3 py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-accent/60" />
+            className="min-w-0 flex-1 rounded-md border border-edge bg-panel px-3 py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-accent/60 md:w-36 md:flex-none" />
           <input value={role} onChange={(e) => setRole(e.target.value)} placeholder="Role"
-            className="w-44 rounded-md border border-edge bg-panel px-3 py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-accent/60" />
+            className="min-w-0 flex-1 rounded-md border border-edge bg-panel px-3 py-2 text-sm text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-accent/60 md:w-44 md:flex-none" />
           <button className="rounded-md bg-accent px-4 py-2 text-sm font-medium text-zinc-950 transition hover:brightness-110">
             Add
           </button>

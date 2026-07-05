@@ -1,4 +1,4 @@
-/** App chrome for the three tool pages: left rail nav + demo banner. */
+/** App chrome: left rail on desktop, compact top bar on phones. */
 import { NavLink, Outlet } from 'react-router-dom'
 
 const tabs = [
@@ -9,9 +9,11 @@ const tabs = [
 
 export default function Shell() {
   return (
-    <div className="min-h-screen atmosphere flex">
-      <aside className="w-48 shrink-0 border-r border-edge/70 px-4 py-6 flex flex-col gap-1">
-        <NavLink to="/" className="mb-8 block font-semibold tracking-tight text-zinc-50">
+    <div className="h-dvh atmosphere flex flex-col md:flex-row">
+      {/* top bar (mobile) / left rail (desktop) */}
+      <aside className="shrink-0 border-b border-edge/70 px-3 py-2 flex items-center gap-1 overflow-x-auto
+                        md:w-48 md:flex-col md:items-stretch md:border-b-0 md:border-r md:px-4 md:py-6">
+        <NavLink to="/" className="mr-2 shrink-0 font-semibold tracking-tight text-zinc-50 md:mb-8 md:mr-0">
           Career<span className="text-accent">Agent</span>
         </NavLink>
         {tabs.map((t) => (
@@ -19,23 +21,23 @@ export default function Shell() {
             key={t.to}
             to={t.to}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
+              `flex shrink-0 items-center gap-2 rounded-md px-3 py-1.5 text-sm transition-colors md:gap-3 md:py-2 ${
                 isActive
                   ? 'bg-accent-dim text-accent'
                   : 'text-zinc-400 hover:text-zinc-100 hover:bg-panel'
               }`
             }
           >
-            <span className="font-mono text-xs w-5">{t.glyph}</span>
+            <span className="hidden font-mono text-xs md:inline md:w-5">{t.glyph}</span>
             {t.label}
           </NavLink>
         ))}
-        <div className="mt-auto rounded-md border border-edge bg-panel px-3 py-2.5 text-[11px] leading-relaxed text-zinc-500">
+        <div className="mt-auto hidden rounded-md border border-edge bg-panel px-3 py-2.5 text-[11px] leading-relaxed text-zinc-500 md:block">
           <span className="text-accent font-mono">demo</span> workspace — synthetic
           candidate, rate-limited, resets daily.
         </div>
       </aside>
-      <main className="min-w-0 flex-1">
+      <main className="min-h-0 min-w-0 flex-1 overflow-y-auto">
         <Outlet />
       </main>
     </div>

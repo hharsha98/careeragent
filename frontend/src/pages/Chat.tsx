@@ -41,6 +41,7 @@ export default function Chat() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [uploading, setUploading] = useState(false)
+  const [docsOpen, setDocsOpen] = useState(false)  // mobile: documents rail as overlay
   const endRef = useRef<HTMLDivElement>(null)
 
   const loadDocs = () => api<Doc[]>('/api/documents').then(setDocs).catch(() => {})
@@ -89,10 +90,10 @@ export default function Chat() {
   }
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-full">
       {/* thread */}
       <div className="flex min-w-0 flex-1 flex-col">
-        <div className="flex-1 space-y-6 overflow-y-auto px-8 py-8">
+        <div className="flex-1 space-y-6 overflow-y-auto px-4 py-6 md:px-8 md:py-8">
           {msgs.length === 0 && (
             <div className="mx-auto mt-24 max-w-md text-center">
               <p className="font-mono text-xs uppercase tracking-[0.25em] text-zinc-500">rag chat</p>
@@ -141,11 +142,16 @@ export default function Chat() {
           <div ref={endRef} />
         </div>
 
-        {error && <p className="px-8 pb-2 text-sm text-red-400">{error}</p>}
+        {error && <p className="px-4 pb-2 text-sm text-red-400 md:px-8">{error}</p>}
 
         <form onSubmit={(e) => { e.preventDefault(); ask(input) }}
-          className="border-t border-edge/70 px-8 py-4">
-          <div className="flex gap-3">
+          className="border-t border-edge/70 px-4 py-3 md:px-8 md:py-4">
+          <div className="flex gap-2 md:gap-3">
+            <button type="button" onClick={() => setDocsOpen(true)}
+              className="rounded-md border border-edge px-3 text-sm text-zinc-400 lg:hidden"
+              aria-label="Show documents">
+              📄{docs.length > 0 && <span className="ml-1 font-mono text-[11px]">{docs.length}</span>}
+            </button>
             <input value={input} onChange={(e) => setInput(e.target.value)}
               placeholder={busy ? 'streaming…' : 'Ask about the documents…'}
               disabled={busy}
@@ -158,9 +164,15 @@ export default function Chat() {
         </form>
       </div>
 
-      {/* documents rail */}
-      <aside className="w-72 shrink-0 overflow-y-auto border-l border-edge/70 px-5 py-6">
-        <h3 className="font-mono text-xs uppercase tracking-[0.25em] text-zinc-500">documents</h3>
+      {/* documents rail: desktop sidebar, mobile full-screen overlay */}
+      <aside className={`${docsOpen ? 'fixed inset-0 z-50 block bg-ink' : 'hidden'}
+                         overflow-y-auto px-5 py-6
+                         lg:static lg:block lg:w-72 lg:shrink-0 lg:border-l lg:border-edge/70 lg:bg-transparent`}>
+        <div className="flex items-center justify-between">
+          <h3 className="font-mono text-xs uppercase tracking-[0.25em] text-zinc-500">documents</h3>
+          <button onClick={() => setDocsOpen(false)} className="font-mono text-zinc-500 lg:hidden"
+            aria-label="Close documents">✕</button>
+        </div>
         <ul className="mt-4 space-y-2">
           {docs.map((d) => (
             <li key={d.id} className="rounded-md border border-edge bg-panel px-3 py-2.5">

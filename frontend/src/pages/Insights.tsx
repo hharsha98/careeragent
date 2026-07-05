@@ -28,7 +28,7 @@ export default function Insights() {
   )
 
   return (
-    <div className="mx-auto max-w-4xl px-8 py-10">
+    <div className="mx-auto max-w-4xl px-4 py-8 md:px-8 md:py-10">
       <p className="font-mono text-xs uppercase tracking-[0.25em] text-zinc-500">insights</p>
       <h2 className="mt-1 text-2xl font-semibold text-zinc-100">Metered and evaluated.</h2>
       <p className="mt-2 max-w-xl text-sm text-zinc-500">
