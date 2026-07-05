@@ -8,7 +8,8 @@ description **anchored to real evidence**, and track applications on a Kanban
 board — with per-request **cost metering** and an **LLM-as-judge evaluation
 suite** built in.
 
-> 🔗 **Live demo:** _coming online — frontend on Cloudflare Pages, API on Hugging Face Spaces_
+> 🔗 **Live API:** https://hv1998-careeragent-api.hf.space/api/health (and notice [/docs is locked](https://hv1998-careeragent-api.hf.space/docs))
+> 🔗 **Live demo:** _frontend going live on Cloudflare Pages_
 > 🧪 Try it without signing up: the demo workspace uses a synthetic candidate and resets regularly.
 
 ## Architecture
