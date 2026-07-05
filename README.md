@@ -9,7 +9,7 @@ board — with per-request **cost metering** and an **LLM-as-judge evaluation
 suite** built in.
 
 > 🔗 **Live API:** https://hv1998-careeragent-api.hf.space/api/health (and notice [/docs is locked](https://hv1998-careeragent-api.hf.space/docs))
-> 🔗 **Live demo:** _frontend going live on Cloudflare Pages_
+> 🔗 **Live demo:** https://careeragent-ceq.pages.dev
 > 🧪 Try it without signing up: the demo workspace uses a synthetic candidate and resets regularly.
 
 ## Architecture
