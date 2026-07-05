@@ -1,0 +1,11 @@
+# Service: one stable address that load-balances across the pods.
+# Pods come and go (restarts, scaling); the Service name never changes.
+apiVersion: v1
+kind: Service
+metadata:
+  name: careeragent-backend
+spec:
+  selector: { app: careeragent }
+  ports:
+    - port: 80          # what other things in the cluster call
+      targetPort: 7860  # what the container listens on

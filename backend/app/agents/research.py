@@ -46,7 +46,9 @@ def run_research(company: str, role: str, workspace: str) -> tuple[CompanyResear
 
     brief = complete_json(
         system="Turn these research notes into the structured brief. Facts only — "
-               "leave a list empty rather than inventing entries.",
+               "leave a list empty rather than inventing entries. Exception: "
+               "talking_points should ALWAYS have 2-4 entries — connect facts you "
+               "found to what a candidate could say in an interview for this role.",
         user=f"<research-notes>\n{notes}\n</research-notes>\n\nCompany: {company}, Role: {role}",
         schema=CompanyResearch,
         usage=usage,

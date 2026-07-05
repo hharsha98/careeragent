@@ -1,0 +1,27 @@
+# Auto-deploy: every push to main that touches backend/ syncs it to the
+# Hugging Face Space (which rebuilds the Docker image and restarts).
+# Needs one repo secret: HF_TOKEN (a HF write token) — Settings -> Secrets -> Actions.
+name: Deploy backend to HF Space
+
+on:
+  push:
+    branches: [main]
+    paths: ['backend/**']
+  workflow_dispatch: {}   # manual "Run workflow" button
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Push backend/ to the Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_USER: hharsha98
+          SPACE: careeragent-api
+        run: |
+          pip -q install "huggingface_hub[cli]"
+          # A Docker Space builds from a repo root: send backend/ as that root.
+          hf upload "$HF_USER/$SPACE" backend . --repo-type space --token "$HF_TOKEN" \
+            --commit-message "deploy ${GITHUB_SHA::7}"

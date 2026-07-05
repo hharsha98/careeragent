@@ -1,0 +1,37 @@
+# Deployment: run 2 copies (replicas) of the backend container.
+# Kubernetes restarts crashed pods and replaces unhealthy ones automatically.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: careeragent-backend
+  labels: { app: careeragent }
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: careeragent }
+  template:
+    metadata:
+      labels: { app: careeragent }
+    spec:
+      containers:
+        - name: backend
+          image: careeragent-backend:local   # built locally, loaded into kind
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 7860
+          envFrom:
+            - secretRef:
+                name: careeragent-secrets    # created from backend/.env, never committed
+          resources:
+            requests: { cpu: 100m, memory: 256Mi }
+            limits: { cpu: 500m, memory: 512Mi }
+          # liveness: "is the process alive?" -> restart if not
+          livenessProbe:
+            httpGet: { path: /api/health, port: 7860 }
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          # readiness: "can it serve traffic?" -> remove from load balancing if not
+          readinessProbe:
+            httpGet: { path: /api/health, port: 7860 }
+            initialDelaySeconds: 3
+            periodSeconds: 10

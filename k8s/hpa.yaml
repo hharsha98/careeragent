@@ -1,0 +1,18 @@
+# HorizontalPodAutoscaler: add pods when CPU is busy, remove them when idle.
+# (Needs metrics-server in the cluster; on kind: see README.)
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: careeragent-backend
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: careeragent-backend
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target: { type: Utilization, averageUtilization: 70 }
