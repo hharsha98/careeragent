@@ -1,7 +1,10 @@
 /** API client. All requests hit the FastAPI backend.
- *  In dev, VITE_DEV_OWNER=1 unlocks the owner workspace via the dev-only header. */
-export const API_BASE =
-  import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:7860'
+ *  In dev, VITE_DEV_OWNER=1 unlocks the owner workspace via the dev-only header.
+ *  The prod API URL is hardcoded (HF username hv1998, NOT the GitHub name) so a
+ *  wrong/missing Cloudflare env var can't point the site at a dead Space. */
+export const API_BASE = import.meta.env.DEV
+  ? 'http://localhost:7860'
+  : 'https://hv1998-careeragent-api.hf.space'
 
 function headers(extra?: Record<string, string>): Record<string, string> {
   const h: Record<string, string> = { ...extra }
