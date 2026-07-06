@@ -1,11 +1,12 @@
-# Free-tier housekeeping, twice a week:
-#  - touch the database through the API so Supabase doesn't pause after 7 idle days
-#  - reset the demo workspace to a clean state for the next visitor
-name: Keep-alive & demo reset
+# Keep the free HF Space warm: it sleeps after ~48h idle, so we ping every 6h
+# (well under the threshold). Also touches the DB so Supabase doesn't pause.
+# NOTE: GitHub-cron pings can be delayed and stop after 60 days of repo inactivity;
+# for bulletproof always-on, add an external pinger too (UptimeRobot, every 5 min).
+name: Keep-alive
 
 on:
   schedule:
-    - cron: '0 6 * * 1,4'   # Mondays and Thursdays, 06:00 UTC
+    - cron: '0 */6 * * *'   # every 6 hours
   workflow_dispatch: {}
 
 jobs:
