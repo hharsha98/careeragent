@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { api, type EvalRun } from '../lib/api'
+import RetrievalFlow from '../components/RetrievalFlow'
 
 /** Staged-reveal helper: plain initial/animate objects (the variants+custom
  *  pattern silently fails to start in some browsers with React 19). */
@@ -27,7 +28,9 @@ export default function Landing() {
   return (
     <div className="min-h-screen atmosphere">
       <div className="mx-auto max-w-5xl px-5 pt-16 pb-16 sm:px-6 sm:pt-24 sm:pb-20">
-        {/* hero */}
+        {/* hero — two columns: pitch + the signature retrieval animation */}
+       <div className="grid items-center gap-10 md:grid-cols-[1fr_auto]">
+        <div>
         <motion.p {...rise(0)}
           className="font-mono text-xs tracking-[0.25em] text-accent uppercase">
           careeragent — a working ai system, not a mockup
@@ -40,13 +43,14 @@ export default function Landing() {
           className="mt-6 max-w-xl text-lg leading-relaxed text-zinc-400">
           Chat with a CV — with citations. Research companies live on the web.
           Tailor bullets to any job description, anchored to real evidence.
+          Advanced retrieval: hybrid search, reranking, query transformation.
           Every request metered, every answer evaluated.
         </motion.p>
 
         <motion.div {...rise(3)}
           className="mt-10 flex flex-wrap items-center gap-4">
           <Link to="/chat"
-            className="rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-zinc-950 transition hover:brightness-110">
+            className="glow-hover rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-zinc-950 transition hover:brightness-110">
             Try the live demo →
           </Link>
           <a href="https://github.com/hharsha98/careeragent" target="_blank" rel="noreferrer"
@@ -61,6 +65,12 @@ export default function Landing() {
             )}
           </span>
         </motion.div>
+        </div>
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4, duration: 0.6 }} className="hidden md:block">
+          <RetrievalFlow />
+        </motion.div>
+       </div>
 
         {/* architecture — drawn, not stocked */}
         <motion.div {...rise(4)} className="mt-24">

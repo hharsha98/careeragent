@@ -35,3 +35,7 @@ body {
 }
 
 ::selection { background: rgb(52 211 153 / 0.25); }
+
+/* glow: soft emerald halo behind primary CTAs and active cards */
+.glow-hover { transition: box-shadow 0.3s, transform 0.3s; }
+.glow-hover:hover { box-shadow: 0 0 0 1px rgb(52 211 153 / 0.25), 0 10px 50px -12px rgb(52 211 153 / 0.5); transform: translateY(-2px); }
