@@ -12,3 +12,5 @@ pyjwt>=2.9                # verify Supabase owner login tokens   [used from D6]
 tavily-python>=0.5        # web search API for the research agent [used from D4]
 ddgs>=9.0                 # zero-key DuckDuckGo search fallback  [used from D4]
 httpx>=0.27               # async HTTP client
+rank_bm25>=0.2            # BM25 keyword ranking for hybrid search
+flashrank>=0.2.9          # ONNX cross-encoder reranker — no torch, CPU-fast

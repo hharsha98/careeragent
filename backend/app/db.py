@@ -12,7 +12,10 @@ from app.config import settings
 
 @contextmanager
 def get_conn():
-    """Open a connection with pgvector types registered, commit on success."""
-    with psycopg.connect(settings.database_url) as conn:
+    """Open a connection with pgvector types registered, commit on success.
+    prepare_threshold=None disables psycopg's auto-prepared-statements, which
+    Supabase's transaction pooler (pgbouncer) does not support — without it,
+    repeated queries on one pooled connection raise DuplicatePreparedStatement."""
+    with psycopg.connect(settings.database_url, prepare_threshold=None) as conn:
         register_vector(conn)  # lets us pass Python lists as vector(1024) values
         yield conn
